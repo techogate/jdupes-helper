@@ -9,7 +9,8 @@ class JDupesInspector {
       println Options.usage()
       System.exit(1)
     }
-    (new JDupesInspector(evaluate(args[0]))).process()
+    (new JDupesInspector(Eval.me(args[0]))).process()
+    return
   }
 
   Options options
