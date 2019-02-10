@@ -1,0 +1,25 @@
+plugins {
+  id 'com.github.johnrengelman.shadow' version '4.0.4'
+  id 'groovy'
+}
+
+version = '1.0'
+
+repositories {
+  jcenter()
+  mavenCentral()
+}
+
+defaultTasks = ['shadowJar']
+version = "1.0"
+
+dependencies {
+  compile 'org.codehaus.groovy:groovy-all:2.4.7'
+}
+
+shadowJar {
+  manifest {
+    attributes 'Main-Class': 'JDupesInspector'
+  }
+  classifier = ""
+}
