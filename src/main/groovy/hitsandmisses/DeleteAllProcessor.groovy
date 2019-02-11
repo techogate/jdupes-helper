@@ -10,6 +10,8 @@ class DeleteAllProcessor extends AbstractProcessor {
     this.group.each { String fname ->
       if (fname."${this.options.patternMode}"(this.options.pattern))
         hits << fname
+      else
+        misses << fname
     }
     this
   }
