@@ -42,8 +42,8 @@ class JDupesInspector {
     println msg
 
     ts = (new Date()).format("yyyyMMdd.HHmmss", TimeZone.getTimeZone('UTC'))
-    new File(HIST_FILE).append "\n$ts: $msg\n$ts: ${argMap.inspect()}"
-    new File(REPLAY_FILE).append "\n${argMap.inspect()}"
+    new File(HIST_FILE).append "\n$ts: $msg\n$ts: \"${argMap.inspect()}\""
+    new File(REPLAY_FILE).append "\n\"${argMap.inspect()}\""
 
     forDeletion = options.deleteFile ?: new File("${options.inFile}.${patt}.to-delete")
 

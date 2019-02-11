@@ -1,4 +1,4 @@
-JDupes Helper
+# JDupes Helper
 =========================
 
 Helper for iteratively processing JDupes output files
@@ -27,7 +27,7 @@ java -jar jdupes-helper-1.0.jar \
 ```
 
 
-Output
+### Output
 
 ```bash
 'preserve' files matched by '/volume1/Photos/Photos.org/' using 'startsWith' in file 'volume1_photos'
@@ -36,8 +36,14 @@ Output
 /Users/me/jdupes-play/dupes.20190210.230741
 ```
 
-Build instructions
+##Build instructions
 
 gradle 4.x required
 'gradle'
 to build
+
+## TODO
+
+Add more processors:
+1. Regex
+1. "del pattern1 iff dupe in pattern2"
