@@ -23,7 +23,7 @@ java -jar jdupes-helper-1.0.jar \
         'deleteFile':'to_delete',\
         'appendDeleteFile':'true',\
         'verbose':'false'\
-]"
+``]"
 ```
 
 
@@ -35,3 +35,9 @@ Output
 /Users/me/jdupes-play/to_delete
 /Users/me/jdupes-play/dupes.20190210.230741
 ```
+
+Build instructions
+
+gradle 4.x required
+'gradle'
+to build
