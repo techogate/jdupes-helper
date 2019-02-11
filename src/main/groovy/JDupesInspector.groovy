@@ -9,8 +9,18 @@ class JDupesInspector {
       println Options.usage()
       System.exit(1)
     }
-    (new JDupesInspector(Eval.me(args[0]))).process()
-    return
+
+    File replayFile = new File(args[0])
+    if (replayFile.exists()) {
+      println "Replaying: $replayFile"
+      replayFile.text.eachLine { String line ->
+        if (!line.isEmpty())
+          (new JDupesInspector(Eval.me(line))).process()
+      }
+    } else {
+      (new JDupesInspector(Eval.me(args[0]))).process()
+    }
+
   }
 
   Options options
@@ -23,7 +33,8 @@ class JDupesInspector {
   int totalMisses = 0;
   String ts
 
-  private final String HIST_FILE = '.dupes.hist'
+  private final String HIST_FILE = '.jdi.hist'
+  private final String REPLAY_FILE = '.jdi.replay'
 
   JDupesInspector(Map<String, String> argMap) {
     options = new Options(argMap)
@@ -31,7 +42,8 @@ class JDupesInspector {
     println msg
 
     ts = (new Date()).format("yyyyMMdd.HHmmss", TimeZone.getTimeZone('UTC'))
-    new File(HIST_FILE).append "\n$ts: $msg\n$ts: $argMap"
+    new File(HIST_FILE).append "\n$ts: $msg\n$ts: ${argMap.inspect()}"
+    new File(REPLAY_FILE).append "\n${argMap.inspect()}"
 
     forDeletion = options.deleteFile ?: new File("${options.inFile}.${patt}.to-delete")
 
@@ -41,7 +53,7 @@ class JDupesInspector {
     }
     forDeletion.append("\n")
 
-    forPreservation = new File("${options.dupesFile}.${ts}")
+    forPreservation = new File("${options.inFile}.jdi")
     if (forPreservation.exists()) {
       forPreservation.delete()
       forPreservation.createNewFile()
