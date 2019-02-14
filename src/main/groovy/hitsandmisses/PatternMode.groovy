@@ -1,5 +1,5 @@
 package hitsandmisses
 
 enum PatternMode {
-  startsWith, contains
+  startsWith, contains, regex
 }

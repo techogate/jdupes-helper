@@ -6,25 +6,27 @@ class HitsAndMissesSerializer {
   File misses
   int countHits
   int countMisses
+  boolean dryRun
 
 
-  HitsAndMissesSerializer(HitsAndMisses hitsAndMisses, File hits, File misses) {
+  HitsAndMissesSerializer(HitsAndMisses hitsAndMisses, File hits, File misses, boolean dryRun) {
     this.hitsAndMisses = hitsAndMisses
     this.hits = hits
     this.misses = misses
+    this.dryRun = dryRun
   }
 
   def serialize() {
 
     hitsAndMisses.hits.each { String hit ->
-      this.hits.append("$hit\n")
+      if (!dryRun) this.hits.append("$hit\n")
       this.countHits++
     }
 
     if (hitsAndMisses.misses.size() > 1) {
-      this.misses.append("\n")
+      if (!dryRun) this.misses.append("\n")
       hitsAndMisses.misses.each { String miss ->
-        this.misses.append("$miss\n")
+        if (!dryRun) this.misses.append("$miss\n")
         this.countMisses++
       }
     }

@@ -1,15 +1,20 @@
-package hitsandmisses
+package hitsandmisses.processors
+
+import hitsandmisses.AbstractProcessor
+import hitsandmisses.HitsAndMisses
+import hitsandmisses.Matcher
+import hitsandmisses.Options
 
 class PreserveProcessor extends AbstractProcessor {
 
-  PreserveProcessor(Set<String> group, Options options ) {
-    super(group, options)
+  PreserveProcessor(Set<String> group, Options options, Matcher matcher) {
+    super(group, options, matcher)
   }
 
   HitsAndMisses processGroup() {
     this.group.each { String fname ->
       // When preserving, only add one match to the misses
-      if (fname."${this.options.patternMode}"(this.options.pattern) && misses.isEmpty())
+      if (matcher.match(fname) && misses.isEmpty())
         misses << fname
       else
         hits << fname

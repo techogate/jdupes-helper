@@ -8,6 +8,7 @@ class Options {
   boolean verbose
   File deleteFile
   File dupesFile
+  boolean dryRun
   boolean appendDeleteFile
 
   Options(Map<String, String> argMap) {
@@ -20,6 +21,7 @@ class Options {
       this.patternMode = argMap['patternMode'] ?: PatternMode.startsWith
       this.mode = argMap['mode'] as Mode
       this.verbose =  (argMap['verbose'] ?: 'false').toBoolean()
+      this.dryRun =  (argMap['dryRun'] ?: 'false').toBoolean()
 
       if (!inFile.exists()) {
         throw new Exception('inFile file does not exit')

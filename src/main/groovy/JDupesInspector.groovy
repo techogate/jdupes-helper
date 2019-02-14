@@ -14,8 +14,12 @@ class JDupesInspector {
     if (replayFile.exists()) {
       println "Replaying: $replayFile"
       replayFile.text.eachLine { String line ->
-        if (!line.isEmpty())
+        if (!line.isEmpty()) {
+          if (line.startsWith('"') && line.endsWith('"')) {
+            line = line.substring(1, line.length() - 1)
+          }
           (new JDupesInspector(Eval.me(line))).process()
+        }
       }
     } else {
       (new JDupesInspector(Eval.me(args[0]))).process()
@@ -38,7 +42,7 @@ class JDupesInspector {
 
   JDupesInspector(Map<String, String> argMap) {
     options = new Options(argMap)
-    String msg = "'${options.mode}' files matched by '${options.pattern}' using '${options.patternMode}' in file '${options.inFile}'"
+    String msg = "'${options.mode}' files matched by '${options.pattern}' using '${options.patternMode}' in file '${options.inFile}' ${options.dryRun ? '(dryRun)' : ''}"
     println msg
 
     ts = (new Date()).format("yyyyMMdd.HHmmss", TimeZone.getTimeZone('UTC'))
@@ -51,7 +55,7 @@ class JDupesInspector {
       forDeletion.delete()
       forDeletion.createNewFile()
     }
-    forDeletion.append("\n")
+    forDeletion.append("echo =========================\n")
 
     forPreservation = new File("${options.inFile}.jdi")
     if (forPreservation.exists()) {
@@ -75,7 +79,8 @@ class JDupesInspector {
     def (Integer countHits, Integer countMisses) = (new HitsAndMissesSerializer(
       ProcessorFactory."${options.mode}Processor"(group, options).processGroup(),
       forDeletion,
-      forPreservation
+      forPreservation,
+      options.dryRun
     )).serialize();
 
     if (countMisses) remainingGroups++
