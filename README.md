@@ -3,16 +3,12 @@
 
 Helper for iteratively processing JDupes output files
 
-[JDupes](https://github.com/jbruchon/jdupes) is a great tool for detecting duplicate files. JDupes produces text output listing groups of duplicate files, each group separated by a new line.
+[JDupes](https://github.com/jbruchon/jdupes) is a very useful tool for detecting duplicate files. JDupes produces text output listing groups of duplicate files, each group separated by a new line.
 
-I have a NAS with 10's of 1000's of photos/videos with way too many duplicates.
-JDupes gave me output of text files listing groups of duplicate files, each group separated by a new line.
+If you have 1000's of duplicate files, deciding which files to delete can be as much of a problem as the duplicate files themselves.
+JDupes Helper facilitates iterating over the list of duplicate files gradually building up a list of files to delete based on incrementally selecting files based on simple rules:
 
-I needed to parse these groups and drill down on these groups and iteratively build
-the lists of files I wanted to delete.
-
-Sample command line: (mode: preserve|delete|deleteAll)
-
+eg
 ```bash
 java -jar jdupes-helper-1.0.jar \
 "[\

@@ -2,6 +2,8 @@ import hitsandmisses.HitsAndMissesSerializer
 import hitsandmisses.Options
 import hitsandmisses.ProcessorFactory
 
+import java.util.regex.Matcher
+
 class JDupesInspector {
 
   public static void main(String[] args) {
@@ -57,11 +59,39 @@ class JDupesInspector {
     }
     forDeletion.append("echo =========================\n")
 
-    forPreservation = new File("${options.inFile}.jdi")
+    forPreservation = this.nextOutputFile
     if (forPreservation.exists()) {
       forPreservation.delete()
       forPreservation.createNewFile()
     }
+  }
+
+  private File getNextOutputFile(boolean overwritable = true) {
+
+    Matcher matcher = (options.inFile.name =~ /^(\w+)\.([0-9]{4})\.jdi$/)
+    File dir = options.inFile.parentFile ?: (new File('.')).absoluteFile.parentFile
+    File retVal = new File(dir, "${options.inFile.name}.0000.jdi")
+
+    if (overwritable) {
+      if (matcher.count == 1 && options.inFile.name.startsWith(matcher[0][1])) {
+        return new File(dir, matcher[0][1] + '.' + String.format("%04d", (matcher[0][2]).toInteger() + 1) + '.jdi')
+      }
+      return retVal
+    }
+
+    int maxExist = -1
+    dir.eachFile { File file ->
+      matcher = (file.name =~ /^(\w+)\.([0-9]{4})\.jdi$/)
+      if (
+        matcher.count == 1 &&
+        file.name.startsWith(matcher[0][1]) &&
+        ((matcher[0][2] as Integer) > maxExist)
+      ) {
+        maxExist = (matcher[0][2]).toInteger()
+        retVal = new File(dir, matcher[0][1] + String.format(".%04d", maxExist + 1) + '.jdi')
+      }
+    }
+    return retVal
   }
 
   void printSummary() {

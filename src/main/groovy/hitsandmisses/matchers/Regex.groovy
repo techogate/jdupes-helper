@@ -12,6 +12,6 @@ class Regex implements Matcher {
 
   @Override
   boolean match(String string) {
-    return (string =~ pattern)
+    return (string =~ /$pattern/ )
   }
 }
