@@ -1,6 +1,6 @@
-package hitsandmisses.matchers
+package matchesandmisses.matchers
 
-import hitsandmisses.Matcher
+import matchesandmisses.Matcher
 
 class StartsWith implements Matcher {
   String pattern

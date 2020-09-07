@@ -1,7 +1,6 @@
-package hitsandmisses.matchers
+package matchesandmisses.matchers
 
-import hitsandmisses.Matcher
-import java.util.regex.Pattern
+import matchesandmisses.Matcher
 
 class Regex implements Matcher {
   String pattern

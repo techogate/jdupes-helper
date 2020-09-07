@@ -1,8 +1,9 @@
-package hitsandmisses
+package matchesandmisses
 
-import hitsandmisses.matchers.Contains
-import hitsandmisses.matchers.Regex
-import hitsandmisses.matchers.StartsWith
+import matchesandmisses.matchers.Contains
+import matchesandmisses.matchers.ContainsIgnoreCase
+import matchesandmisses.matchers.Regex
+import matchesandmisses.matchers.StartsWith
 
 class MatcherFactory {
   private MatcherFactory() {
@@ -18,9 +19,12 @@ class MatcherFactory {
         break
       case PatternMode.regex:
         return new Regex(pattern)
+        break
+      case PatternMode.icontains:
+        return new ContainsIgnoreCase(pattern)
+        break
       default:
         assert ('No such Pattern')
     }
-
   }
 }

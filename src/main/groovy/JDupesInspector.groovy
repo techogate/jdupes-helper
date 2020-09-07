@@ -1,6 +1,6 @@
-import hitsandmisses.HitsAndMissesSerializer
-import hitsandmisses.Options
-import hitsandmisses.ProcessorFactory
+import matchesandmisses.MatchesAndMissesSerializer
+import matchesandmisses.Options
+import matchesandmisses.ProcessorFactory
 
 import java.util.regex.Matcher
 
@@ -106,8 +106,8 @@ class JDupesInspector {
   }
 
   void processGroup(Set<String> group) {
-    def (Integer countHits, Integer countMisses) = (new HitsAndMissesSerializer(
-      ProcessorFactory."${options.mode}Processor"(group, options).processGroup(),
+    def (Integer countHits, Integer countMisses) = (new MatchesAndMissesSerializer(
+      (new ProcessorFactory())."${options.mode}"(group, options).processGroup(),
       forDeletion,
       forPreservation,
       options.dryRun
